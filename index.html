@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.global.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <style>
+        .row {
+            height: 50px;
+        }
+        
+        .col {
+            width: 50px;
+            height: 50px;
+            float: left;
+        }
+        
+        .square {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+        }
+        
+        .white-sq {
+            background-color: white;
+            color: black;
+        }
+        
+        .black-sq {
+            color: white;
+            background-color: black;
+        }
+        
+        .files {
+            margin-top: 30px;
+            margin-right: 5px;
+            float: right;
+        }
+        
+        #main {
+            width: 400px;
+        }
+        
+        .crow {
+            margin-top: 1px;
+            margin-left: 5px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div id="main" class="container mt-2">
+
+
+            <p v-if="numberT>0">you clicked on {{numberT}}{{files[letterT-1]}}</p>
+            <div class="row" v-for="col in cols">
+                <div class="col" v-for="row in rows">
+                    <div v-if="(col+row)%2==0" class="square white-sq" v-bind:style="{ backgroundColor: color1}" v-on:click="show(col,row)">
+                        <p v-if="row==1" class="crow">{{col}}</p>
+                        <p v-if="col==8" class="files">{{files[row-1]}}</p>
+
+                    </div>
+                    <div v-if="(col+row)%2==1" class="square black-sq" v-bind:style="{ backgroundColor: color}" v-on:click="show(col,row)">
+                        <p v-if="row==1" class="crow">{{col}}</p>
+                        <p v-if="col==8" class="files">{{files[row-1]}}</p>
+
+                    </div>
+                </div>
+                <br>
+
+            </div>
+            <br>
+            <span>Select the color
+                <input type="color"  v-model="color1" class="form-control">
+                <input type="color"  v-model="color"  class="form-control">
+           <br>
+            <button class="btn btn-outline-info mb-2" v-on:click="reverseRow">Reverse Row</button>
+            <br>
+            <button class="btn btn-outline-warning" v-on:click="reverseCol">Reverse Col</button>
+
+        </div>
+        </div>
+    </center>
+
+
+</body>
+<script>
+    const chess = {
+        data() {
+            return {
+                rows: [1,2,3,4,5,6,7,8],
+                cols: [1,2,3,4,5,6,7,8],
+                files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+                color: "#000000",
+                color1: "#ffffff",
+                numberT: 0,
+                letterT: 0
+
+            }
+        },
+        methods: {
+            show: function(cols2, rows2) {
+                this.numberT = cols2
+                this.letterT = rows2
+            },
+            reverseRow: function(){
+                this.rows.reverse()
+          
+                
+            },
+            reverseCol: function(){
+                this.cols.reverse()
+          
+                
+            }
+        }
+    }
+    Vue.createApp(chess).mount('#main');
+</script>
+
+</html>
